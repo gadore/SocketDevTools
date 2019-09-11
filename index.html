@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="./static/css/404.css">
+    <link rel="stylesheet" href="./static/css/font-awesome.min.css">
+
+    <script src="./static/js/miniFrame.js"></script>
+
+    <script>
+        window.$ = window.jQuery = require('jquery')
+        window.net = require('net')
+    </script>
+
+    <title>App</title>
+</head>
+
+<body id="root" onload="init()">
+    <!-- windowControl -->
+    <div id="topBar">
+        <div id="titleName">Socket Dev Tools</div>
+        <!-- uncomment this in windows  -->
+        <i class="winBtn fa fa-circle" id="closeBtn"></i>
+        <i class="winBtn fa fa-circle" id="maxBtn"></i>
+        <i class="winBtn fa fa-circle" id="hideBtn"></i>
+        <!-- uncomment this in windows  -->
+    </div>
+    <div class="use-float" id="topContainer">
+        <!-- Button Area-->
+        <div id="sideBar">
+        </div>
+        <div id="workspace">
+            <!-- Control Panel -->
+            <div id="paramsSetting" style="display: inline; overflow: auto;">
+                <div style="color: lightgray;margin:10px 25px;font-size:18px;" id="subBarTitle">SocketClient</div>
+
+                <div id="SocketClientContent" class="contents" style="display: block">
+                    <div class="subContent">
+                        <i class="fa fa-caret-right"></i>
+                        <div style="display: inline; ">客户端参数设置</div>
+                    </div>
+                    <div style="padding-left: 25px;padding-right: 25px; margin-bottom: 15px;">
+                        <div>
+                            <h5>HostName:</h5>
+                        </div>
+                        <div style="width: 100%;">
+                            <input type="text" value="127.0.0.1" id="clientHostName" style="width:100%;">
+                        </div>
+                        <div>
+                            <h5>Port</h5>
+                        </div>
+                        <div>
+                            <input type="text" id="clientPort" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="SocketServerContent" class="contents">
+                    <div class="subContent">
+                        <i class="fa fa-caret-right"></i>
+                        <div style="display: inline; ">服务端参数设置</div>
+                    </div>
+                    <div style="padding-left: 25px;padding-right: 25px;margin-bottom: 15px;">
+                        <div>
+                            <h5>ServerPort</h5>
+                        </div>
+                        <div>
+                            <input id="SocketServerPort" type="text" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+                <!-- div.content#SerialPort>div.subContent -->
+            </div>
+
+            <!-- MainDisplay -->
+            <div id="mainDisplay">
+                <div id="tab"></div>
+                <div id="box">
+                    <div style="position: relative; width: 100%;left: 0px;top: 30px;">
+                        <div id="notify">这里是一则通知消息</div>
+                    </div>
+                </div>
+                <div id="output" style="display: block">
+                    <div id="buttonBar">
+                        <div id="sendButton">Send</div>
+                    </div>
+                    <div id="input" contenteditable="true">this is a test message</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bottomBar">
+        <div class="barStatus" id="showInputSend">HideInput</div>
+        <div class="barStatus">
+            <select id="headerSize" class="bottomSelect" data-dropup-auto="true" onchange="headerSizeChange()">
+                <option value="0">0_headerSize</option>
+                <option value="2">2_headerSize</option>
+                <option value="4">4_headerSize</option>
+            </select>
+        </div>
+        <div class="barStatus">
+            <select id="encoding" class="bottomSelect" data-dropup-auto="true" onchange="encodingChange()">
+                <option value="false">normal</option>
+                <option value="true">hex</option>
+            </select>
+        </div>
+        <div class="barStatus" id="barStatus">
+            <select id="timeInterval" class="bottomSelect" data-dropup-auto="true" onchange="timeIntervalChange()">
+                <option value="1000">1000</option>
+                <option value="500">500</option>
+                <option value="200">200</option>
+            </select>
+            ms/time
+        </div>
+        <div class="barStatus" id="barStatus">
+            <select id="autoSend" class="bottomSelect" data-dropup-auto="true" onchange="autoSendChange()">
+                <option value="false">manual</option>
+                <option value="true">auto</option>
+            </select>
+        </div>
+        <div class="barStatus" id="barStatus">status6</div>
+    </div>
+    <div id="hexReceive" style="display: none;">false</div>
+    <script src="./static/js/subControl.js"></script>
+    <script src="./static/js/socket.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script src="./static/js/windowmanager.js"></script>
+</body>
+
+</html>

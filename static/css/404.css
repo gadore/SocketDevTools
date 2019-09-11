@@ -1,0 +1,440 @@
+/* @import url('https://fonts.googleapis.com/css?family=Laila|Lobster'); */
+
+html,
+body {
+  overflow: hidden;
+  background: #272822;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+/*定义滚动条高宽及背景
+ 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/*定义滚动条轨道
+  内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/*定义滑块
+  内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, .3);
+  background-color: #555;
+}
+
+.log {
+  font-size: 16px;
+  color: lightgray;
+  word-wrap: break-word;
+  width: 100%;
+}
+
+#notify {
+  width: 80%;
+  height: auto;
+  background: white;
+  color: black;
+  border-radius: 5px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+}
+
+#sendButton {
+  color: white;
+  float: right;
+  font-size: 20px;
+  width: 100px;
+  height: 29px;
+  border: 1px solid #75715e;
+  line-height: 29px;
+  text-align: center;
+  background: #1e1f1c;
+  user-select: none;
+  margin-right: 10px;
+}
+
+.clientList {
+  width: 100%;
+  color: white;
+}
+
+.clientList:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.listTitle {
+  padding: 5px 15px;
+  background: #272822;
+  user-select: none;
+}
+
+.listTitle:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.listCheck {
+  padding: 5px 40px 0 40px;
+  font-size: 18px;
+  margin-bottom: 0px;
+  user-select: none;
+}
+
+.listCheck:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.listCheck>input {
+  width: 15px;
+  height: 15px;
+  float: right;
+}
+
+.red {
+  color: #f92672;
+}
+
+.blue {
+  color: #66d9ef;
+}
+
+.green {
+  color: #a6d627;
+}
+
+#closeBtn {
+  color: #f92672;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#maxBtn {
+  color: #66d9ef;
+  position: absolute;
+  top: 0;
+  right: 27px;
+}
+
+#hideBtn {
+  color: #cca700;
+  position: absolute;
+  top: 0;
+  right: 55px;
+}
+
+.gray {
+  color: #5c5d5b;
+}
+
+.tab {
+  display: inline;
+  font-size: 14px;
+  color: white;
+  padding: 14px 20px;
+  line-height: 45px;
+  background: #34352f;
+  margin-right: 2px;
+  user-select: none;
+}
+
+#tab {
+  width: 100%;
+  height: 45px;
+  overflow: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.tab>i {
+  margin-left: 5px;
+  visibility: hidden;
+}
+
+.tab:hover {
+  cursor: pointer;
+}
+
+.tab:hover>i {
+  display: inline;
+  visibility: visible;
+  z-index: 99;
+}
+
+#box {
+  width: 100%;
+  height: 80%;
+}
+
+.use-float>div:first-child {
+  float: left;
+}
+
+.use-float>div:last-child {
+  overflow: hidden;
+}
+
+#workspace {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tabActive {
+  background: #272822
+}
+
+.tabActive>i {
+  visibility: visible;
+  z-index: 99;
+}
+
+#paramsSetting {
+  background: #1e1f1c;
+  height: 100%;
+  float: left;
+  min-width: 236px;
+  width: 250px;
+}
+
+#mainDisplay {
+  background: #272822;
+  height: 100%;
+  width: 100%;
+  float: left;
+}
+
+.sideBtn {
+  margin-bottom: 25px;
+  text-align: center;
+  color: gray;
+}
+
+.sideBtn:hover {
+  color: white;
+}
+
+.sideBtn:active {
+  color: #ec272f;
+}
+
+#sideBar {
+  background: #272822;
+  height: 100%;
+  width: 60px;
+  padding-top: 15px;
+}
+
+.center {
+  text-align: center;
+}
+
+.display_none {
+  display: none;
+}
+
+.collection,
+.name {
+  position: absolute;
+  color: #fff;
+  padding: 5px;
+  text-align: left;
+  font-size: 24px;
+  font-family: 'Laila', serif;
+  transition: 200ms ease-in-out;
+  text-shadow: 2px 0px 4px #000;
+}
+
+.collection {
+  font-size: 18px !important;
+  top: 50px;
+  left: 0px;
+}
+
+.collection>span {
+  font-size: 24px;
+}
+
+.name {
+  top: 5px;
+  left: 5px;
+  font-family: 'Lobster', serif;
+}
+
+.collection>span>a {
+  font-family: 'Lobster', serif;
+  position: relative;
+  transition: all 200ms ease-in-out;
+}
+
+.textHover:active,
+.textHover:link,
+.textHover:visited,
+.textHover:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+input {
+  background: #414339;
+  color: lightgray;
+  border: 1px solid #414339;
+  padding: 5px;
+  font-size: 16px;
+}
+
+input:focus {
+  border: 1px solid #75715e;
+  outline: #75715e;
+}
+
+#buttonBar{
+  border-top: 1px solid #414339;
+  height: 30px;
+}
+
+#input:focus {
+  outline: none;
+  border: 0px;
+}
+
+#input{
+  overflow: auto;
+  height: 200px;
+  
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.contentBox {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px;
+  display: none;
+}
+
+.contents{
+  width: 100%;
+  color: white;
+  display: none;
+}
+
+.subContent{
+  padding: 5px 15px; 
+  background:#272822;
+  user-select: none;
+}
+
+.bottomSelect{
+  background: #414339;
+  border: 1px solid #414339;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}:focus{
+  border: 1px solid #414339;
+}
+
+.contentBoxActive {
+  display: block;
+}
+
+.contentBoxInactive {
+  display: none;
+}
+
+#topBar {
+  width: 100%;
+  height: 28px;
+  background: #212220;
+  -webkit-app-region: drag;
+}
+
+.winBtn {
+  height: 20px;
+  width: 28px;
+  color: white;
+  float: right;
+  -webkit-app-region: no-drag;
+  margin-top: 7px;
+}
+
+.barStatus {
+  display: inline;
+  height: 22px;
+  color: lightgray;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  margin-right: 5px;
+  float: right;
+  padding: 0 5px;
+  overflow: hidden;
+}
+
+.barStatus:hover{
+  background: #585a51;
+  cursor: pointer;
+  user-select: none;
+}
+
+#titleName {
+  color: white;
+  line-height: 28px;
+  width: 50%;
+  font-size: 16px;
+  position: relative;
+  text-align: center;
+  left: 25%;
+  user-select: none;
+}
+
+#bottomBar {
+  width: 100%;
+  height: 22px;
+  background: #414339;
+}
+
+.textHover:before,
+.textHover:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -5px;
+  left: 0px;
+  box-shadow: 0px 0px 10px #fff;
+  background-color: white;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 200ms ease-in-out;
+}
+
+.textHover:after {
+  top: -2px;
+  transition-delay: 200ms;
+}
+
+.textHover:hover:before,
+.textHover:hover:after,
+.textHover:hover {
+  visibility: visible;
+  transform: scaleX(1);
+  cursor: pointer;
+  text-shadow: 0px 0px 10px #fff;
+}
