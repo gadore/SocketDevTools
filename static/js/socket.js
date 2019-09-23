@@ -95,6 +95,9 @@ function createSocketClient(hostname, port, id) {
         }
         div.appendChild(contentCreater('message receive:' + msg, 'blue'))
         scrollToEnd(div)
+        if(div.children.length>100){
+            div.innerHTML = ''
+        }
     })
 
     socket.on('error', function (error) {
@@ -150,6 +153,9 @@ function createSocketServer(Port) {
                 }
                 div.appendChild(contentCreater('[Server receive]:' + `${client.remoteAddress}:${client.remotePort}:${msg}`, 'blue'))
                 scrollToEnd(div)
+                if(div.children.length>100){
+                    div.innerHTML = ''
+                }
             })
 
             client.on('error', function (e) { //监听客户端异常
