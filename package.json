@@ -1,5 +1,5 @@
 {
-  "name": "webclient",
+  "name": "socketdev",
   "version": "1.0.0",
   "description": "single page web app",
   "main": "main.js",
@@ -11,13 +11,13 @@
     "build": "yarn dist"
   },
   "build": {
-    "appId": "com.gadore.webclient",
+    "appId": "com.gadore.socketdev",
     "mac": {
       "category": "business"
     }
   },
   "keywords": [
-    "web"
+    "socket"
   ],
   "author": "gadore",
   "license": "ISC",
