@@ -16,6 +16,7 @@
     <script>
         window.$ = window.jQuery = require('jquery')
         window.net = require('net')
+        window.ws = require('ws')
     </script>
 
     <title>App</title>
@@ -38,9 +39,9 @@
         <div id="workspace">
             <!-- Control Panel -->
             <div id="paramsSetting" style="display: inline; overflow: auto;">
-                <div style="color: lightgray;margin:10px 25px;font-size:18px;" id="subBarTitle">SocketClient</div>
+                <div style="color: lightgray;margin:10px 25px;font-size:18px;" id="subBarTitle">TCPSocketClient</div>
 
-                <div id="SocketClientContent" class="contents" style="display: block">
+                <div id="TCPSocketClientContent" class="contents" style="display: block">
                     <div class="subContent">
                         <i class="fa fa-caret-right"></i>
                         <div style="display: inline; ">客户端参数设置</div>
@@ -61,7 +62,7 @@
                     </div>
                 </div>
 
-                <div id="SocketServerContent" class="contents">
+                <div id="TCPSocketServerContent" class="contents">
                     <div class="subContent">
                         <i class="fa fa-caret-right"></i>
                         <div style="display: inline; ">服务端参数设置</div>
@@ -75,7 +76,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- div.content#SerialPort>div.subContent -->
+
+                <div id="WebSocketServerContent" class="contents">
+                    <div class="subContent">
+                        <i class="fa fa-caret-right"></i>
+                        <div style="display: inline; ">WebSocket参数设置</div>
+                    </div>
+                    <div style="padding-left: 25px;padding-right: 25px;margin-bottom: 15px;">
+                        <div>
+                            <h5>ServerPort</h5>
+                        </div>
+                        <div>
+                            <input id="WebSocketServerPort" type="text" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- MainDisplay -->
@@ -110,7 +125,7 @@
                 <option value="true">hex</option>
             </select>
         </div>
-        <div class="barStatus" id="barStatus">
+        <!-- <div class="barStatus" id="barStatus">
             <select id="timeInterval" class="bottomSelect" data-dropup-auto="true" onchange="timeIntervalChange()">
                 <option value="1000">1000</option>
                 <option value="500">500</option>
@@ -123,14 +138,14 @@
                 <option value="false">manual</option>
                 <option value="true">auto</option>
             </select>
-        </div>
-        <!-- <div class="barStatus" id="barStatus">status6</div> -->
+        </div> -->
     </div>
     <div id="hexReceive" style="display: none;">false</div>
     <script src="./static/js/subControl.js"></script>
     <script src="./static/js/socket.js"></script>
     <script src="./static/js/index.js"></script>
     <script src="./static/js/windowmanager.js"></script>
+    <script src="./static/js/webSocket.js"></script>
 </body>
 
 </html>

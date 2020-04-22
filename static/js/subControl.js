@@ -1,15 +1,15 @@
 let btnBox = {}
 let contentsBox = {}
-let activeBtn = 'SocketClient'
+let activeBtn = 'TCPSocketClient'
 
-$id('sideBar').appendChild(sideBtnCreater('SocketClient', 'fa-globe'))
-$id('sideBar').appendChild(sideBtnCreater('SocketServer', 'fa-cog'))
-$id('sideBar').appendChild(sideBtnCreater('Settings', 'fa-bug'))
+$id('sideBar').appendChild(sideBtnCreater('TCPSocketClient', 'fa-globe'))
+$id('sideBar').appendChild(sideBtnCreater('TCPSocketServer', 'fa-cog'))
+$id('sideBar').appendChild(sideBtnCreater('WebSocketServer', 'fa-bug'))
 $id('sideBar').appendChild(sideBtnCreater('CloudBug', 'fa-cloud'))
 
 btnBox = $class('sideBtn')
 contentsBox = $class('contents')
-$id('SocketClient').style.color = 'white'
+$id('TCPSocketClient').style.color = 'white'
 
 $('.sideBtn').on('click', function () {
     if (this.id == activeBtn) {

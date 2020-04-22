@@ -1,4 +1,15 @@
 const net = require('net')
+const WebSocket = require('ws')
+// 引用Server类:
+const WebSocketServer = WebSocket.Server
+
+//  state.websock.readyState =>
+//  ###########################
+//  #   0:connecting,         #
+//  #   1:connected,          #
+//  #   2:closing,            #
+//  #   3:closed/openFailed   #
+//  ###########################
 
 let currentTabId = 0
 let serverPortCount = 0
@@ -8,6 +19,89 @@ let autoSend = false
 let hexType = false
 let headerSize = 0
 let clientBank = new Array()
+
+$id('WebSocketServerPort').onkeyup = function (e) {
+    if (e.keyCode != 13) {
+        return
+    }
+    var port = parseInt($id('WebSocketServerPort').value)
+
+    if (isNaN(port) || port > 65535 || port < 1) {
+        showNotify('port show be number in 0~65535')
+        return
+    }
+
+    var tempSocket = createWebSocketServer(port)
+
+    if (!$isNull(tempSocket)) {
+        sockets[port] = tempSocket
+        serverPortCount++
+    } else {
+        showNotify('socket is null')
+        return
+    }
+}
+
+function createWebSocketServer(port) {
+    try {
+        const wss = new WebSocketServer({port: port})
+        const hostname = '0.0.0.0'
+        let clients = {}
+        let clientName = 0
+        mkTag(port, port, 'server')
+        let div = mkContentDiv('server', port)
+        div.appendChild(contentCreater(`服务器运行在：http://${hostname}:${port}`, 'green'))
+        $id('box').appendChild(div)
+        clientBank[port] = new Array()
+        $id('WebSocketServerContent').appendChild(ServerClientList(port))
+        wss.on('connection', function (client) {
+            client.name = ++clientName
+            client.type = 'web'
+            clients[client.name] = client
+            clientBank[port][parseInt(client.name)] = client
+            div.appendChild(contentCreater('[client connected!] >> ' + `${client._socket.remoteAddress.split(':')[3]}` + `${client._socket.remotePort}`, 'green'))
+
+            scrollToEnd(div)
+
+            clientHost = checkBoxCreater(client)
+
+            clientHost.id = 'listCheck' + client._socket.remotePort
+
+            $id('list' + port).appendChild(clientHost)
+
+            client.on('message', function (message) {
+                div.appendChild(contentCreater('[Server receive]:' + `${client._socket.remoteAddress.split(':')[3]}:${client._socket.remotePort}:${message}`, 'blue'))
+                scrollToEnd(div)
+                if(div.children.length>100){
+                    div.innerHTML = ''
+                }
+            })
+            client.onclose = function (client) {
+                if (!$isNull($id('listCheck' + client._socket.remotePort)))
+                    $id('list' + port).removeChild($id('listCheck' + client._socket.remotePort))
+                delete clients[client.name]
+                delete clientBank[port][client.name]
+                div.appendChild(contentCreater(`${client._socket.remoteAddress.split(':')[3]}下线了`, 'red'))
+                scrollToEnd(div)
+            }
+        })
+
+        wss.on('error', (e) => {
+            if (e.code === 'EADDRINUSE') {
+                showNotify('Port in use,change another one !')
+            } else {
+                showNotify(e)
+            }
+            socket.unref()
+            socket.close()
+            return undefined
+        })
+
+        return wss
+    } catch (e) {
+        showNotify(e)
+    }
+}
 
 $id('SocketServerPort').onkeyup = function (e) {
     if (e.keyCode != 13) {
@@ -31,7 +125,7 @@ $id('SocketServerPort').onkeyup = function (e) {
     }
 }
 
-$id('SocketClientContent').onkeyup = function (e) {
+$id('TCPSocketClientContent').onkeyup = function (e) {
     if (e.keyCode != 13)
         return
 
@@ -135,6 +229,8 @@ function createSocketServer(Port) {
             client.name = ++clientName // 给每一个client起个名
             clients[client.name] = client // 将client保存在clients
 
+            client.type = 'tcp'
+
             clientBank[port][parseInt(client.name)] = client
 
             div.appendChild(contentCreater('[client connected!] >> ' + `${client.remoteAddress}` + `${client.remotePort}`, 'green'))
@@ -191,7 +287,7 @@ function createSocketServer(Port) {
             div.appendChild(contentCreater(`服务器运行在：http://${hostname}:${port}`, 'green'))
             $id('box').appendChild(div)
             clientBank[port] = new Array()
-            $id('SocketServerContent').appendChild(ServerClientList(port))
+            $id('TCPSocketServerContent').appendChild(ServerClientList(port))
         })
 
         return socket
@@ -236,11 +332,25 @@ $id('sendButton').onclick = function () {
             var ckbox = $class('checkBox' + currentTabId)
             if (!$isNull(ckbox))
                 for (var i = 0; i < ckbox.length; i++) {
-                    if (ckbox[i].checked && !$isNull(clientBank[currentTabId][parseInt(ckbox[i].value)]))
-                        clientBank[currentTabId][parseInt(ckbox[i].value)].write(content, function () {
-                            tempServerContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                            scrollToEnd(tempServerContentBox)
-                        })
+                    if (ckbox[i].checked && !$isNull(clientBank[currentTabId][parseInt(ckbox[i].value)])){
+                        var tempClient = clientBank[currentTabId][parseInt(ckbox[i].value)]
+                        if(tempClient.type == 'tcp'){
+                            tempClient.write(content, function () {
+                                tempServerContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
+                                scrollToEnd(tempServerContentBox)
+                            })
+                        }
+                        if(tempClient.type == 'web'){
+                            tempClient.send(content,(err)=>{
+                                if(err){
+                                    tempServerContentBox.appendChild(contentCreater('[send error]:' + err, 'gray'))
+                                }else{
+                                    tempServerContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
+                                }
+                                scrollToEnd(tempServerContentBox)
+                            })
+                        }
+                    }
                 }
         }
     } catch (e) {
@@ -266,13 +376,18 @@ function checkBoxCreater(client) {
     checkbox = $mkEle('input')
     checkbox.type = 'checkbox'
     checkbox.value = client.name
-    checkbox.classList.add('checkBox' + client.localPort)
+    var className = 'checkBox' + (client.localPort == undefined ? client._socket.localPort:client.localPort)
+    checkbox.classList.add(className)
     checkbox.checked = true
 
-    p.innerText = client.remoteAddress + ' #' + client.remotePort
+    var address = client.remoteAddress == undefined ? client._socket.remoteAddress.split(':')[3]:client.remoteAddress
+
+    var port = client.remotePort == undefined ? client._socket.remotePort:client.remotePort
+
+    p.innerText = address + ' #' + port
     p.appendChild(checkbox)
     p.classList.add('listCheck')
-    p.id = 'listCheck' + client.localPort
+    p.id = 'listCheck' + client.localPort == undefined ? client._socket.localPort:client.localPort
 
     return p
 }
