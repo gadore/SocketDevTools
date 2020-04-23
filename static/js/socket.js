@@ -524,8 +524,16 @@ function recycleSocketServer(port) {
         //delete clientBank[port][i]
     }
     //recycle clientLists
-    if (!$isNull($id('listBox' + port)))
-        $id('SocketServerContent').removeChild($id('listBox' + port))
+    if (!$isNull($id('listBox' + port))){
+        if(!$isNull($id('TCPSocketServerContent'))){
+            if($id('TCPSocketServerContent').contains($id('listBox' + port)))
+                $id('TCPSocketServerContent').removeChild($id('listBox' + port))
+        }
+        if(!$isNull($id('WebSocketServerContent'))){
+            if($id('WebSocketServerContent').contains($id('listBox' + port)))
+                $id('WebSocketServerContent').removeChild($id('listBox' + port))
+        }
+    }
     if ($isNull(sockets[port]))
         return
     sockets[port].close(function () {
