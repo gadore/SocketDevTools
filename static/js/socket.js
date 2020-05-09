@@ -92,6 +92,7 @@ function createWebSocketServer(port) {
             } else {
                 showNotify(e)
             }
+            if(socket==undefined)return
             socket.unref()
             socket.close()
             return undefined
@@ -527,8 +528,18 @@ function recycleSocketServer(port) {
     }
     //recycle clientLists
     if (!$isNull($id('listBox' + port))){
-        try{$id('TCPSocketServerContent').removeChild($id('listBox' + port))}catch{}
-        try{$id('WebSocketServerContent').removeChild($id('listBox' + port))}catch{}
+
+        // try{$id('TCPSocketServerContent').removeChild($id('listBox' + port))}catch{}
+        // try{$id('WebSocketServerContent').removeChild($id('listBox' + port))}catch{}
+
+        if(!$isNull($id('TCPSocketServerContent'))){
+            if($id('TCPSocketServerContent').contains($id('listBox' + port)))
+                $id('TCPSocketServerContent').removeChild($id('listBox' + port))
+        }
+        if(!$isNull($id('WebSocketServerContent'))){
+            if($id('WebSocketServerContent').contains($id('listBox' + port)))
+                $id('WebSocketServerContent').removeChild($id('listBox' + port))
+        }
     }
     if ($isNull(sockets[port]))
         return
