@@ -10,6 +10,7 @@ let drag = false
 let editHeight = 230
 let changedPsWidth = 300//do not delete this varable,use in other js file!!!!
 let onfocus = true
+let timeTicker
 
 window.onresize = function () {
   AutoSetWindowSize()
@@ -137,8 +138,12 @@ function encodingChange(){
 
 function timeIntervalChange(){
   timeInterval = parseInt($id('timeInterval').options[$id('timeInterval').selectedIndex].value)
+  window.clearInterval(timeTicker)
+  timeTicker = setInterval(function(){if(!autoSend){return}sendMessage()},timeInterval)
 }
 
 function autoSendChange(){
   autoSend = $id('autoSend').options[$id('autoSend').selectedIndex].value == 'true' ? true : false
 }
+
+timeTicker = setInterval(function () {if(!autoSend){return}sendMessage()}, timeInterval)

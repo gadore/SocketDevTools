@@ -57,7 +57,7 @@
                             <h5>Port</h5>
                         </div>
                         <div>
-                            <input type="text" id="clientPort" style="width: 100%;">
+                            <input type="text" id="clientPort" style="width: 100%;" value="6666">
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                             <h5>ServerPort</h5>
                         </div>
                         <div>
-                            <input id="SocketServerPort" type="text" style="width: 100%;">
+                            <input id="SocketServerPort" type="text" style="width: 100%;" value="6666">
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             <h5>ServerPort</h5>
                         </div>
                         <div>
-                            <input id="WebSocketServerPort" type="text" style="width: 100%;">
+                            <input id="WebSocketServerPort" type="text" style="width: 100%;" value="6667">
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                 <option value="true">hex</option>
             </select>
         </div>
-        <!-- <div class="barStatus" id="barStatus">
+        <div class="barStatus" id="barStatus">
             <select id="timeInterval" class="bottomSelect" data-dropup-auto="true" onchange="timeIntervalChange()">
                 <option value="1000">1000</option>
                 <option value="500">500</option>
@@ -133,19 +133,18 @@
             </select>
             ms/time
         </div>
-        <div class="barStatus" id="barStatus">
+        <div class="barStatus" id="autoSendDiv">
             <select id="autoSend" class="bottomSelect" data-dropup-auto="true" onchange="autoSendChange()">
                 <option value="false">manual</option>
                 <option value="true">auto</option>
             </select>
-        </div> -->
+        </div>
     </div>
     <div id="hexReceive" style="display: none;">false</div>
     <script src="./static/js/subControl.js"></script>
     <script src="./static/js/socket.js"></script>
     <script src="./static/js/index.js"></script>
     <script src="./static/js/windowmanager.js"></script>
-    <script src="./static/js/webSocket.js"></script>
 </body>
 
 </html>

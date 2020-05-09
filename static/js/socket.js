@@ -202,7 +202,7 @@ function createSocketClient(hostname, port, id) {
     })
 
     socket.on('close', function () {
-        div.appendChild(contentCreater('[client ' + socket.localPort + ' disconnected]', 'red'))
+        div.appendChild(contentCreater('[client disconnected]', 'red'))
         scrollToEnd(div)
         socket.readyStatus = false
     })
@@ -296,7 +296,7 @@ function createSocketServer(Port) {
     }
 }
 
-$id('sendButton').onclick = function () {
+function sendMessage() {
     var content = $id('input').innerText
     if ($isNull(content)) {
         showNotify('do not send empty message')
@@ -357,6 +357,8 @@ $id('sendButton').onclick = function () {
         showNotify(e)
     }
 }
+
+$id('sendButton').onclick = sendMessage
 
 function contentCreater(content, color) {
     var time = new Date()
@@ -524,8 +526,10 @@ function recycleSocketServer(port) {
         //delete clientBank[port][i]
     }
     //recycle clientLists
-    if (!$isNull($id('listBox' + port)))
-        $id('SocketServerContent').removeChild($id('listBox' + port))
+    if (!$isNull($id('listBox' + port))){
+        try{$id('TCPSocketServerContent').removeChild($id('listBox' + port))}catch{}
+        try{$id('WebSocketServerContent').removeChild($id('listBox' + port))}catch{}
+    }
     if ($isNull(sockets[port]))
         return
     sockets[port].close(function () {
