@@ -104,6 +104,44 @@ function createWebSocketServer(port) {
     }
 }
 
+function createWebSocketClient(hostname, port, id) {
+    const socket = new WebSocket('ws://' + hostname + ':' + port)
+
+    var div = mkContentDiv('client', id)
+
+    div.appendChild(contentCreater('Client connecting...', 'gray'))
+
+    scrollToEnd(div)
+
+    mkContentDiv('client')
+
+    socket.onopen = function () {
+        socket.readyStatus = true
+        div.appendChild(contentCreater('[client#' + id + ']' + 'connect to ' + hostname + ':' + port + ' success!', 'green'))
+        scrollToEnd(div)
+        $id('box').appendChild(div)
+    }
+
+    socket.onmessage = function (msg) {
+        if (headerSize != 0&&hexType) {
+            msg = msg.slice(headerSize, parseInt(msg[headerSize]))
+        }
+        div.appendChild(contentCreater('message receive:' + msg, 'blue'))
+        scrollToEnd(div)
+        if(div.children.length>100){
+            div.innerHTML = ''
+        }
+    }
+
+    socket.onclose = function () {
+        div.appendChild(contentCreater('[client disconnected]', 'red'))
+        scrollToEnd(div)
+        socket.readyStatus = false
+    }
+
+    return socket
+}
+
 $id('SocketServerPort').onkeyup = function (e) {
     if (e.keyCode != 13) {
         return
