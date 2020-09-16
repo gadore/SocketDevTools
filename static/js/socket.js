@@ -42,6 +42,42 @@ $id('WebSocketServerPort').onkeyup = function (e) {
     }
 }
 
+$id('WebSocketClientPort').onkeyup = function (e) {
+    if (e.keyCode != 13) {
+        return
+    }
+    var port = parseInt($id('WebSocketClientPort').value)
+    var host = $id('WebSocketClientHost').value
+
+    if (net.isIP(host) != 4 && net.isIP(host) != 6) {
+        showNotify('Not IP4 or IP6 Address')
+        return
+    }
+
+    if (isNaN(port) || port > 65535 || port < 1) {
+        showNotify('port show be number in 0~65535')
+        return
+    }
+
+    let tempTabId = parseInt(Math.random() * 1000000)
+
+    let tempSocket = createWebSocketClient(host, port, tempTabId)
+    if (!$isNull(tempSocket)) {
+        sockets[tempTabId] = tempSocket
+        serverPortCount++
+    } else
+        return
+
+    var tag = mkTag(port, tempTabId, 'client')
+
+    setTimeout(function () {
+        if (tempSocket.readyState !== 1) {
+            showNotify('connect to websocket server timeout !')
+        } else
+            tag.title = '#' + tempSocket.localPort
+    }, 5000)
+}
+
 function createWebSocketServer(port) {
     try {
         const wss = new WebSocketServer({port: port})
@@ -107,6 +143,10 @@ function createWebSocketServer(port) {
 function createWebSocketClient(hostname, port, id) {
     const socket = new WebSocket('ws://' + hostname + ':' + port)
 
+    socket.type = 'web'
+
+    // socket.send()
+
     var div = mkContentDiv('client', id)
 
     div.appendChild(contentCreater('Client connecting...', 'gray'))
@@ -126,7 +166,7 @@ function createWebSocketClient(hostname, port, id) {
         if (headerSize != 0&&hexType) {
             msg = msg.slice(headerSize, parseInt(msg[headerSize]))
         }
-        div.appendChild(contentCreater('message receive:' + msg, 'blue'))
+        div.appendChild(contentCreater('message receive:' + msg.data, 'blue'))
         scrollToEnd(div)
         if(div.children.length>100){
             div.innerHTML = ''
@@ -204,6 +244,8 @@ function createSocketClient(hostname, port, id) {
     const socket = new net.Socket()
 
     socket.readyStatus = false
+
+    socket.type = 'tcp'
 
     socket.setEncoding = 'UTF-8'
 
@@ -362,11 +404,26 @@ function sendMessage() {
             }
         }
 
-        if (!$isNull(tempClientContentBox))
-            sockets[currentTabId].write(content, function () {
-                tempClientContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                scrollToEnd(tempClientContentBox)
-            })
+        if (!$isNull(tempClientContentBox)){
+            if(sockets[currentTabId].type === 'tcp'){
+                sockets[currentTabId].write(content, function () {
+                    tempClientContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
+                    scrollToEnd(tempClientContentBox)
+                })
+            }
+            if(sockets[currentTabId].type === 'web'){
+                sockets[currentTabId].send(content,(err)=>{
+                    if(err){
+                        showNotify(err)
+                    }else{
+                        tempClientContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
+                        scrollToEnd(tempClientContentBox)
+                    }
+                })
+            }
+        }
+
+            
         if (!$isNull(tempServerContentBox)) {
             var ckbox = $class('checkBox' + currentTabId)
             if (!$isNull(ckbox))
@@ -542,7 +599,7 @@ function recycle(icon) {
     if (type == 'client') {
         Rport = sockets[id].remotePort
         Lport = sockets[id].localPort
-        sockets[id].destroy()
+        
         delete sockets[id]
         //recycle clientlist
         if (!$isNull($id('listCheck' + Lport)))

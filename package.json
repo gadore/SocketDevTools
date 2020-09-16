@@ -12,8 +12,8 @@
   },
   "build": {
     "appId": "com.gadore.socketdev",
-    "win":{
-      "requestedExecutionLevel":"requireAdministrator"
+    "win": {
+      "requestedExecutionLevel": "requireAdministrator"
     },
     "mac": {
       "category": "business"

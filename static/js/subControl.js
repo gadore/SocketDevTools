@@ -5,7 +5,7 @@ let activeBtn = 'TCPSocketClient'
 $id('sideBar').appendChild(sideBtnCreater('TCPSocketClient', 'fa-globe'))
 $id('sideBar').appendChild(sideBtnCreater('TCPSocketServer', 'fa-cog'))
 $id('sideBar').appendChild(sideBtnCreater('WebSocketServer', 'fa-bug'))
-$id('sideBar').appendChild(sideBtnCreater('CloudBug', 'fa-cloud'))
+$id('sideBar').appendChild(sideBtnCreater('WebSocketClient', 'fa-cloud'))
 
 btnBox = $class('sideBtn')
 contentsBox = $class('contents')
