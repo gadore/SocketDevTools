@@ -139,11 +139,13 @@ function encodingChange(){
 function timeIntervalChange(){
   timeInterval = parseInt($id('timeInterval').options[$id('timeInterval').selectedIndex].value)
   window.clearInterval(timeTicker)
-  timeTicker = setInterval(function(){if(!autoSend){return}sendMessage()},timeInterval)
+  timeTicker = setInterval(function(){if(!autoSend){return} sendMessage()},timeInterval)
 }
 
 function autoSendChange(){
   autoSend = $id('autoSend').options[$id('autoSend').selectedIndex].value == 'true' ? true : false
 }
 
-timeTicker = setInterval(function () {if(!autoSend){return}sendMessage()}, timeInterval)
+
+timeTicker = setInterval(function () {if(!autoSend){return} sendMessage()}, timeInterval)
+

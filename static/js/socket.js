@@ -77,11 +77,11 @@ function createWebSocketServer(port) {
                 }
             })
             client.onclose = function (client) {
-                if (!$isNull($id('listCheck' + client._socket.remotePort)))
-                    $id('list' + port).removeChild($id('listCheck' + client._socket.remotePort))
+                if (!$isNull($id('listCheck' + client.target._socket.remotePort)))
+                    $id('list' + port).removeChild($id('listCheck' + client.target._socket.remotePort))
                 delete clients[client.name]
                 delete clientBank[port][client.name]
-                div.appendChild(contentCreater(`${client._socket.remoteAddress.split(':')[3]}下线了`, 'red'))
+                div.appendChild(contentCreater(`${client.target._socket.remoteAddress.split(':')[3]}下线了`, 'red'))
                 scrollToEnd(div)
             }
         })
@@ -523,8 +523,8 @@ function recycle(icon) {
 function recycleSocketServer(port) {
     // destroy all clients (this will emit the 'close' event above)
     for (var i in clientBank[port]) {
-        clientBank[port][i].destroy();
-        //delete clientBank[port][i]
+        // clientBank[port][i]?.destroy()
+        delete clientBank[port][i]
     }
     //recycle clientLists
     if (!$isNull($id('listBox' + port))){
