@@ -15,6 +15,6 @@ Hope you like it !
 
 界面美观（界面的布局直接参照的VSCode，使用Monokai配色 :) ）
 
-![Preview](https://github.com/SocketDevTools/preview.jpg)
+![Preview](https://github.com/gadore/SocketDevTools/blob/master/preview.jpg?raw=true)
 
 > 最初想写这个的时候什么都还不会，所以代码比较乱，大家多多包涵
