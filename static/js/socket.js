@@ -404,21 +404,27 @@ function sendMessage() {
             }
         }
 
+        let contents = content.split('::::')
+
         if (!$isNull(tempClientContentBox)){
             if(sockets[currentTabId].type === 'tcp'){
-                sockets[currentTabId].write(content, function () {
-                    tempClientContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                    scrollToEnd(tempClientContentBox)
+                contents.forEach(con => {
+                    sockets[currentTabId].write(con, function () {
+                        tempClientContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                        scrollToEnd(tempClientContentBox)
+                    })
                 })
             }
             if(sockets[currentTabId].type === 'web'){
-                sockets[currentTabId].send(content,(err)=>{
-                    if(err){
-                        showNotify(err)
-                    }else{
-                        tempClientContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                        scrollToEnd(tempClientContentBox)
-                    }
+                contents.forEach(con => {
+                    sockets[currentTabId].send(con,(err)=>{
+                        if(err){
+                            showNotify(err)
+                        }else{
+                            tempClientContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                            scrollToEnd(tempClientContentBox)
+                        }
+                    })
                 })
             }
         }
@@ -431,19 +437,23 @@ function sendMessage() {
                     if (ckbox[i].checked && !$isNull(clientBank[currentTabId][parseInt(ckbox[i].value)])){
                         var tempClient = clientBank[currentTabId][parseInt(ckbox[i].value)]
                         if(tempClient.type == 'tcp'){
-                            tempClient.write(content, function () {
-                                tempServerContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                                scrollToEnd(tempServerContentBox)
+                            contents.forEach(con => {
+                                tempClient.write(con, function () {
+                                    tempServerContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                                    scrollToEnd(tempServerContentBox)
+                                })
                             })
                         }
                         if(tempClient.type == 'web'){
-                            tempClient.send(content,(err)=>{
-                                if(err){
-                                    tempServerContentBox.appendChild(contentCreater('[send error]:' + err, 'gray'))
-                                }else{
-                                    tempServerContentBox.appendChild(contentCreater('[send success]:' + content, 'gray'))
-                                }
-                                scrollToEnd(tempServerContentBox)
+                            contents.forEach(con => {
+                                tempClient.send(con,(err)=>{
+                                    if(err){
+                                        tempServerContentBox.appendChild(contentCreater('[send error]:' + err, 'gray'))
+                                    }else{
+                                        tempServerContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                                    }
+                                    scrollToEnd(tempServerContentBox)
+                                })
                             })
                         }
                     }
