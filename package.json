@@ -11,7 +11,7 @@
     "build": "yarn dist"
   },
   "build": {
-    "appId": "com.gadore.socketdev",
+    "appId": "com.gadore.socketools",
     "win": {
       "requestedExecutionLevel": "requireAdministrator"
     },

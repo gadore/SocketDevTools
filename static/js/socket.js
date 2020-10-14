@@ -404,7 +404,10 @@ function sendMessage() {
             }
         }
 
-        let contents = content.split('::::')
+        let contents = [ content ]
+        if(headerSize == 0){
+            contents = content.split('::::')
+        }
 
         if (!$isNull(tempClientContentBox)){
             if(sockets[currentTabId].type === 'tcp'){
