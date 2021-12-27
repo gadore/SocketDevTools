@@ -458,5 +458,10 @@ input:focus {
 #desc{
   float: left !important;
   font-size: 14px;
+}
+
+#githubIcon{
+  float: left !important;
+  font-size: 14px;
   color: #66d9ef;
 }

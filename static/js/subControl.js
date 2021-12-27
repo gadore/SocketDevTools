@@ -9,7 +9,7 @@ $id('sideBar').appendChild(sideBtnCreater('WebSocketServer', 'fa-bug'))
 $id('sideBar').appendChild(sideBtnCreater('TCPSocketServer', 'fa-cog'))
 $id('sideBar').appendChild(sideBtnCreater('TCPSocketClient', 'fa-globe'))
 
-$id('sideBar').appendChild(sideBtnLinkCreater('githubAbout', 'fa-github', 'https://github.com/gadore/SocketDevTools/releases/tag/0.3.0'))
+// $id('sideBar').appendChild(sideBtnLinkCreater('githubAbout', 'fa-github', 'https://github.com/gadore/SocketDevTools/releases/tag/0.3.0'))
 
 btnBox = $class('sideBtn')
 contentsBox = $class('contents')
@@ -61,16 +61,4 @@ function sideBtnCreater(idName, className) {
     return div
 }
 
-function sideBtnLinkCreater(idName, className, link) {
-    var div = $mkEle('div')
-    div.id = idName
-    div.classList.add('sideBtn')
-    var i = $mkEle('i')
-    i.classList.add('fa')
-    i.classList.add('fa-3x')
-    i.classList.add(className)
-    i.setAttribute("aria-hidden", 'true')
-    div.appendChild(i)
-    div.onclick = () => { shell.openExternal(link) }
-    return div
-}
+$id('githubIcon').onclick = () => { shell.openExternal('https://github.com/gadore/SocketDevTools') }
