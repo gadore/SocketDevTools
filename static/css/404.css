@@ -64,6 +64,20 @@ body {
   margin-right: 10px;
 }
 
+.connectButton{
+  color: white;
+  float: right;
+  font-size: 20px;
+  width: 50%;
+  height: 35px;
+  border: 1px solid #75715e;
+  line-height: 35px;
+  text-align: center;
+  background: #1e1f1c;
+  user-select: none;
+  margin-left: 10px;
+}
+
 .clientList {
   width: 100%;
   color: white;
@@ -394,14 +408,16 @@ input:focus {
 }
 
 #titleName {
-  color: white;
+  color: lightgray;
   line-height: 28px;
   width: 50%;
   font-size: 16px;
   position: relative;
+
   text-align: center;
   left: 25%;
   user-select: none;
+  padding-left: 20px;
 }
 
 #bottomBar {

@@ -4,7 +4,8 @@ const {
   MenuItem,
   remote,
   ipcMain,
-  BrowserWindow
+  BrowserWindow,
+  shell
 } = require('electron')
 
 // Menu.setApplicationMenu(null)

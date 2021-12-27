@@ -20,66 +20,74 @@ let hexType = false
 let headerSize = 0
 let clientBank = new Array()
 
-$id('WebSocketServerPort').onkeyup = function (e) {
-    if (e.keyCode != 13) {
-        return
-    }
-    var port = parseInt($id('WebSocketServerPort').value)
+function startWebsocketServer(e) {
+    if (e.type === 'click' || (e.type === 'keyup' && e.keyCode === 13)) {
+        var port = parseInt($id('WebSocketServerPort').value)
 
-    if (isNaN(port) || port > 65535 || port < 1) {
-        showNotify('port show be number in 0~65535')
-        return
-    }
+        if (isNaN(port) || port > 65535 || port < 1) {
+            showNotify('port show be number in 0~65535')
+            return
+        }
 
-    var tempSocket = createWebSocketServer(port)
+        var tempSocket = createWebSocketServer(port)
 
-    if (!$isNull(tempSocket)) {
-        sockets[port] = tempSocket
-        serverPortCount++
-    } else {
-        showNotify('socket is null')
-        return
+        if (!$isNull(tempSocket)) {
+            sockets[port] = tempSocket
+            serverPortCount++
+        } else {
+            showNotify('socket is null')
+            return
+        }
     }
 }
 
-$id('WebSocketClientPort').onkeyup = function (e) {
-    if (e.keyCode != 13) {
-        return
-    }
-    var port = parseInt($id('WebSocketClientPort').value)
-    var host = $id('WebSocketClientHost').value
+$id('WebSocketServerPort').onkeyup = startWebsocketServer
+$id('startWebsocketServerBtn').onclick = startWebsocketServer
 
-    if (net.isIP(host) != 4 && net.isIP(host) != 6) {
-        showNotify('Not IP4 or IP6 Address')
-        return
-    }
+function connectWebsocket(e) {
+    if (e.type === 'click' || (e.type === 'keyup' && e.keyCode === 13)) {
+        var port = parseInt($id('WebSocketClientPort').value)
+        var host = $id('WebSocketClientHost').value
 
-    if (isNaN(port) || port > 65535 || port < 1) {
-        showNotify('port show be number in 0~65535')
-        return
-    }
+        if (net.isIP(host) != 4 && net.isIP(host) != 6) {
+            showNotify('Not IP4 or IP6 Address')
+            return
+        }
 
-    let tempTabId = parseInt(Math.random() * 1000000)
+        if (isNaN(port) || port > 65535 || port < 1) {
+            showNotify('port show be number in 0~65535')
+            return
+        }
 
-    let tempSocket = createWebSocketClient(host, port, tempTabId)
-    if (!$isNull(tempSocket)) {
-        sockets[tempTabId] = tempSocket
-        serverPortCount++
-    } else
-        return
+        let tempTabId = parseInt(Math.random() * 1000000)
 
-    var tag = mkTag(port, tempTabId, 'client')
-
-    setTimeout(function () {
-        if (tempSocket.readyState !== 1) {
-            showNotify('connect to websocket server timeout !')
+        let tempSocket = createWebSocketClient(host, port, tempTabId)
+        if (!$isNull(tempSocket)) {
+            sockets[tempTabId] = tempSocket
+            serverPortCount++
         } else
-            tag.title = '#' + tempSocket.localPort
-    }, 5000)
+            return
+
+        var tag = mkTag(port, tempTabId, 'client')
+
+        setTimeout(function () {
+            if (tempSocket.readyState !== 1) {
+                showNotify('connect to websocket server timeout !')
+            } else
+                tag.title = '#' + tempSocket.localPort
+        }, 5000)
+    }
 }
+
+$id('WebSocketClientPort').onkeyup = connectWebsocket
+$id('websocketClientConnectBtn').onclick = connectWebsocket
 
 function createWebSocketServer(port) {
     try {
+        if (!$isNull(sockets[port])) {
+            showNotify('Port in use, change a another one')
+            return sockets[port]
+        }
         const wss = new WebSocketServer({port: port})
         const hostname = '0.0.0.0'
         let clients = {}
@@ -182,63 +190,67 @@ function createWebSocketClient(hostname, port, id) {
     return socket
 }
 
-$id('SocketServerPort').onkeyup = function (e) {
-    if (e.keyCode != 13) {
-        return
-    }
-    var port = parseInt($id('SocketServerPort').value)
+function startTcpSocketServer(e) {
+    if (e.type === 'click' || (e.type === 'keyup' && e.keyCode === 13)) {
+        var port = parseInt($id('SocketServerPort').value)
 
-    if (isNaN(port) || port > 65535 || port < 1) {
-        showNotify('port show be number in 0~65535')
-        return
-    }
+        if (isNaN(port) || port > 65535 || port < 1) {
+            showNotify('port show be number in 0~65535')
+            return
+        }
 
-    var tempSocket = createSocketServer(port)
+        var tempSocket = createSocketServer(port)
 
-    if (!$isNull(tempSocket)) {
-        sockets[port] = tempSocket
-        serverPortCount++
-    } else {
-        showNotify('socket is null')
-        return
+        if (!$isNull(tempSocket)) {
+            sockets[port] = tempSocket
+            serverPortCount++
+        } else {
+            showNotify('socket is null')
+            return
+        }
     }
 }
 
-$id('TCPSocketClientContent').onkeyup = function (e) {
-    if (e.keyCode != 13)
-        return
+$id('SocketServerPort').onkeyup = startTcpSocketServer
+$id('starttcpsocketServerBtn').onclick = startTcpSocketServer
 
-    var hostname = $id('clientHostName').value
-    var port = parseInt($id('clientPort').value)
+function connectTcpClient(e) {
+    if (e.type === 'click' || (e.type === 'keyup' && e.keyCode === 13)) {
+        var hostname = $id('clientHostName').value
+        var port = parseInt($id('clientPort').value)
 
-    if (net.isIP(hostname) != 4 && net.isIP(hostname) != 6) {
-        showNotify('Not IP4 or IP6 Address')
-        return
-    }
+        if (net.isIP(hostname) != 4 && net.isIP(hostname) != 6) {
+            showNotify('Not IP4 or IP6 Address')
+            return
+        }
 
-    if (isNaN(port) || port > 65535 || port < 1) {
-        showNotify('port show be number in 0~65535')
-        return
-    }
+        if (isNaN(port) || port > 65535 || port < 1) {
+            showNotify('port show be number in 0~65535')
+            return
+        }
 
-    var tempTabId = parseInt(Math.random() * 1000000)
+        var tempTabId = parseInt(Math.random() * 1000000)
 
-    var tempSocket = createSocketClient(hostname, port, tempTabId)
-    if (!$isNull(tempSocket)) {
-        sockets[tempTabId] = tempSocket
-        serverPortCount++
-    } else
-        return
-
-    var tag = mkTag(port, tempTabId, 'client')
-
-    setTimeout(function () {
-        if (!tempSocket.readyStatus) {
-            showNotify('connection time out')
+        var tempSocket = createSocketClient(hostname, port, tempTabId)
+        if (!$isNull(tempSocket)) {
+            sockets[tempTabId] = tempSocket
+            serverPortCount++
         } else
-            tag.title = '#' + tempSocket.localPort
-    }, 5000)
+            return
+
+        var tag = mkTag(port, tempTabId, 'client')
+
+        setTimeout(function () {
+            if (!tempSocket.readyStatus) {
+                showNotify('connection time out')
+            } else
+                tag.title = '#' + tempSocket.localPort
+        }, 5000)
+    }
 }
+
+$id('TCPSocketClientContent').onkeyup = connectTcpClient
+$id('tcpClientConnectBtn').onclick = connectTcpClient
 
 function createSocketClient(hostname, port, id) {
     const socket = new net.Socket()
@@ -297,6 +309,10 @@ function createSocketClient(hostname, port, id) {
 
 function createSocketServer(Port) {
     try {
+        if (!$isNull(sockets[Port])) {
+            showNotify('Port in use, change a another one')
+            return sockets[Port]
+        }
         const hostname = '0.0.0.0'
         let port = Port
         let clients = {}

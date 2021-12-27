@@ -25,7 +25,7 @@
 <body id="root" onload="init()">
     <!-- windowControl -->
     <div id="topBar">
-        <div id="titleName">Socket Dev Tools V1.0.0</div>
+        <div id="titleName">Socket Dev Tools V1.0.2</div>
         <!-- uncomment this in windows  -->
         <i class="winBtn fa fa-times" id="closeBtn"></i>
         <i class="winBtn fa fa-window-maximize" id="maxBtn"></i>
@@ -41,7 +41,7 @@
             <div id="paramsSetting" style="display: inline; overflow: auto;">
                 <div style="color: lightgray;margin:10px 25px;font-size:18px;" id="subBarTitle">TCPSocketClient</div>
 
-                <div id="TCPSocketClientContent" class="contents" style="display: block">
+                <div id="TCPSocketClientContent" class="contents">
                     <div class="subContent">
                         <i class="fa fa-caret-right"></i>
                         <div style="display: inline; ">客户端参数设置</div>
@@ -57,7 +57,8 @@
                             <h5>Port</h5>
                         </div>
                         <div>
-                            <input type="text" id="clientPort" style="width: 100%;" value="6666">
+                            <input type="text" id="clientPort" style="width: calc(50% - 11px);" value="6666">
+                            <button class="connectButton" id="tcpClientConnectBtn">Connect</button>
                         </div>
                     </div>
                 </div>
@@ -72,7 +73,8 @@
                             <h5>ServerPort</h5>
                         </div>
                         <div>
-                            <input id="SocketServerPort" type="text" style="width: 100%;" value="6666">
+                            <input id="SocketServerPort" type="text" style="width: calc(50% - 11px);" value="6666">
+                            <button class="connectButton" id="starttcpsocketServerBtn">Launch</button>
                         </div>
                     </div>
                 </div>
@@ -87,12 +89,13 @@
                             <h5>ServerPort</h5>
                         </div>
                         <div>
-                            <input id="WebSocketServerPort" type="text" style="width: 100%;" value="6767">
+                            <input id="WebSocketServerPort" type="text" style="width: calc(50% - 11px);" value="6767">
+                            <button class="connectButton" id="startWebsocketServerBtn">Launch</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="WebSocketClientContent" class="contents">
+                <div id="WebSocketClientContent" class="contents" style="display: block">
                     <div class="subContent">
                         <i class="fa fa-caret-right"></i>
                         <div style="display: inline; ">WebSocketClient参数设置</div>
@@ -108,7 +111,8 @@
                             <h5>ServerPort</h5>
                         </div>
                         <div>
-                            <input id="WebSocketClientPort" type="text" style="width: 100%;" value="6767">
+                            <input id="WebSocketClientPort" type="text" style="width: calc(50% - 11px);" value="6767">
+                            <button class="connectButton" id="websocketClientConnectBtn">Connect</button>
                         </div>
                     </div>
                 </div>

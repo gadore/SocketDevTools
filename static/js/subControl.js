@@ -1,15 +1,19 @@
+const { shell } = require('electron')
+
 let btnBox = {}
 let contentsBox = {}
-let activeBtn = 'TCPSocketClient'
+let activeBtn = 'WebSocketClient'
 
-$id('sideBar').appendChild(sideBtnCreater('TCPSocketClient', 'fa-globe'))
-$id('sideBar').appendChild(sideBtnCreater('TCPSocketServer', 'fa-cog'))
-$id('sideBar').appendChild(sideBtnCreater('WebSocketServer', 'fa-bug'))
 $id('sideBar').appendChild(sideBtnCreater('WebSocketClient', 'fa-cloud'))
+$id('sideBar').appendChild(sideBtnCreater('WebSocketServer', 'fa-bug'))
+$id('sideBar').appendChild(sideBtnCreater('TCPSocketServer', 'fa-cog'))
+$id('sideBar').appendChild(sideBtnCreater('TCPSocketClient', 'fa-globe'))
+
+$id('sideBar').appendChild(sideBtnLinkCreater('githubAbout', 'fa-github', 'https://github.com/gadore/SocketDevTools/releases/tag/0.3.0'))
 
 btnBox = $class('sideBtn')
 contentsBox = $class('contents')
-$id('TCPSocketClient').style.color = 'white'
+$id('WebSocketClient').style.color = 'white'
 
 $('.sideBtn').on('click', function () {
     if (this.id == activeBtn) {
@@ -54,5 +58,19 @@ function sideBtnCreater(idName, className) {
     i.classList.add(className)
     i.setAttribute("aria-hidden", 'true')
     div.appendChild(i)
+    return div
+}
+
+function sideBtnLinkCreater(idName, className, link) {
+    var div = $mkEle('div')
+    div.id = idName
+    div.classList.add('sideBtn')
+    var i = $mkEle('i')
+    i.classList.add('fa')
+    i.classList.add('fa-3x')
+    i.classList.add(className)
+    i.setAttribute("aria-hidden", 'true')
+    div.appendChild(i)
+    div.onclick = () => { shell.openExternal(link) }
     return div
 }
