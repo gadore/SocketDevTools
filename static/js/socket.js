@@ -77,7 +77,8 @@ function connectWebsocket(e) {
             if (tempSocket.readyState !== 1) {
                 showNotify('connect to websocket server timeout !')
             } else
-                tag.title = '#' + tempSocket.localPort
+                console.log(tempSocket)
+                tag.title = '#' + tempSocket._socket.localPort
         }, 5000)
     }
 }
@@ -596,9 +597,7 @@ function mkTag(port, tempTabId, type) {
     tag.classList.add('tab')
     tag.appendChild(icon)
 
-    icon.onclick = function () {
-        recycle(icon.id)
-    }
+    icon.onclick = function () { recycle(icon.id) }
 
     if (!$isNull($class('tabActive')[0]))
         $class('tabActive')[0].classList.remove('tabActive')
