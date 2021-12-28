@@ -119,8 +119,8 @@ function createWebSocketServer(port) {
             client.on('message', function (message) {
                 div.appendChild(contentCreater('[Server receive]:' + `${client._socket.remoteAddress.split(':')[3]}:${client._socket.remotePort}:${message}`, 'blue'))
                 scrollToEnd(div)
-                if(div.children.length>logItemSize){
-                    div.innerHTML = ''
+                while(div.children.length>logItemSize){
+                    div.removeChild(div.firstChild)
                 }
             })
             client.onclose = function (client) {
@@ -179,8 +179,8 @@ function createWebSocketClient(hostname, port, id) {
         }
         div.appendChild(contentCreater('message receive:' + msg.data, 'blue'))
         scrollToEnd(div)
-        if(div.children.length>logItemSize){
-            div.innerHTML = ''
+        while(div.children.length>logItemSize){
+            div.removeChild(div.firstChild)
         }
     }
 
@@ -285,8 +285,8 @@ function createSocketClient(hostname, port, id) {
         }
         div.appendChild(contentCreater('message receive:' + msg, 'blue'))
         scrollToEnd(div)
-        if(div.children.length>logItemSize){
-            div.innerHTML = ''
+        while(div.children.length>logItemSize){
+            div.removeChild(div.firstChild)
         }
     })
 
@@ -349,8 +349,8 @@ function createSocketServer(Port) {
                 }
                 div.appendChild(contentCreater('[Server receive]:' + `${client.remoteAddress}:${client.remotePort}:${msg}`, 'blue'))
                 scrollToEnd(div)
-                if(div.children.length>logItemSize){
-                    div.innerHTML = ''
+                while(div.children.length>logItemSize){
+                    div.removeChild(div.firstChild)
                 }
             })
 
@@ -433,6 +433,9 @@ function sendMessage() {
                 contents.forEach(con => {
                     sockets[currentTabId].write(con, function () {
                         tempClientContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                        while(tempClientContentBox.children.length>logItemSize){
+                            tempClientContentBox.removeChild(tempClientContentBox.firstChild)
+                        }
                         scrollToEnd(tempClientContentBox)
                     })
                 })
@@ -444,6 +447,9 @@ function sendMessage() {
                             showNotify(err)
                         }else{
                             tempClientContentBox.appendChild(contentCreater('[send success]:' + con, 'gray'))
+                            while(tempClientContentBox.children.length>logItemSize){
+                                tempClientContentBox.removeChild(tempClientContentBox.firstChild)
+                            }
                             scrollToEnd(tempClientContentBox)
                         }
                     })
