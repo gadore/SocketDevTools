@@ -1,9 +1,9 @@
 function showNotify(msg) {
     $id('notify').innerText = msg;
-    $id('notify').style.display = 'block'
+    $id('notify').style.display = 'inline-block'
     setTimeout(function () {
         $id('notify').style.display = 'none'
-    }, 2000)
+    }, 5000)
 }
 
 function $id(id) {

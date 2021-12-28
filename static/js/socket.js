@@ -77,7 +77,6 @@ function connectWebsocket(e) {
             if (tempSocket.readyState !== 1) {
                 showNotify('connect to websocket server timeout !')
             } else
-                console.log(tempSocket)
                 tag.title = '#' + tempSocket._socket.localPort
         }, 5000)
     }
@@ -135,17 +134,19 @@ function createWebSocketServer(port) {
         })
 
         wss.on('error', (e) => {
+            div.innerHTML = null
             if (e.code === 'EADDRINUSE') {
                 showNotify('Port in use,change another one !')
             } else {
                 showNotify(e)
             }
-            if(socket==undefined)return
-            socket.unref()
-            socket.close()
+            div.appendChild(contentCreater(e, 'red'))
+            if (wss !== undefined && wss.unref !== undefined && wss.close !== undefined) {
+                wss.unref()
+                wss.close()
+            }
             return undefined
         })
-
         return wss
     } catch (e) {
         showNotify(e)
@@ -156,8 +157,6 @@ function createWebSocketClient(hostname, port, id) {
     const socket = new WebSocket('ws://' + hostname + ':' + port)
 
     socket.type = 'web'
-
-    // socket.send()
 
     var div = mkContentDiv('client', id)
 
@@ -187,6 +186,13 @@ function createWebSocketClient(hostname, port, id) {
 
     socket.onclose = function () {
         div.appendChild(contentCreater('[client disconnected]', 'red'))
+        scrollToEnd(div)
+        socket.readyStatus = false
+    }
+
+    socket.onerror = function (e) {
+        showNotify(e.message)
+        div.appendChild(contentCreater(e.message, 'red'))
         scrollToEnd(div)
         socket.readyStatus = false
     }
@@ -292,7 +298,8 @@ function createSocketClient(hostname, port, id) {
     })
 
     socket.on('error', function (error) {
-        div.appendChild(contentCreater('[client error]:' + error, 'red'))
+        showNotify(error.message)
+        div.appendChild(contentCreater('[client error]:' + error.message, 'red'))
         scrollToEnd(div)
         socket.readyStatus = false
         return

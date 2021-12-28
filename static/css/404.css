@@ -38,16 +38,16 @@ body {
 }
 
 #notify {
-  width: 80%;
-  height: auto;
-  background: white;
-  color: black;
-  border-radius: 5px;
-  line-height: 40px;
-  font-size: 20px;
+  width: calc(100% - 230px);
+  height: 29px;
+  background: #1e1f1c;
+  color: #e6db5a;
+  line-height: 27px;
+  font-size: 16px;
   text-align: center;
-  margin: 0 auto;
+  overflow: auto;
   display: none;
+  border: 1px solid #75715e;
 }
 
 .commonButton {
