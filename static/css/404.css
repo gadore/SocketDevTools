@@ -50,7 +50,7 @@ body {
   display: none;
 }
 
-#sendButton {
+.commonButton {
   color: white;
   float: right;
   font-size: 20px;
@@ -62,6 +62,7 @@ body {
   background: #1e1f1c;
   user-select: none;
   margin-right: 10px;
+  /* margin-top: 1px; */
 }
 
 .connectButton{

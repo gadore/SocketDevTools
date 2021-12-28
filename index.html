@@ -128,7 +128,8 @@
                 </div>
                 <div id="output" style="display: block">
                     <div id="buttonBar">
-                        <div id="sendButton">Send</div>
+                        <div id="sendButton" class="commonButton">Send</div>
+                        <div id="exportButton" class="commonButton">Export</div>
                     </div>
                     <div id="input" contenteditable="true">this is a test message</div>
                 </div>
@@ -153,6 +154,8 @@
         <div class="barStatus" id="barStatus">
             <select id="timeInterval" class="bottomSelect" data-dropup-auto="true" onchange="timeIntervalChange()">
                 <option value="1000">1000</option>
+                <option value="3000">3000</option>
+                <option value="5000">5000</option>
                 <option value="500">500</option>
                 <option value="200">200</option>
             </select>
@@ -163,6 +166,16 @@
                 <option value="false">manual</option>
                 <option value="true">auto</option>
             </select>
+        </div>
+        <div class="barStatus" id="logSize">
+            <select id="logItemSize" class="bottomSelect" data-dropup-auto="true" onchange="logItemSizeChange()">
+                <option value="200">200</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="3000">3000</option>
+                <option value="5000">5000</option>
+            </select>
+             log items
         </div>
         <div class="barStatus" id="githubIcon"><i class="fa fa-github"></i></div>
         <div class="barStatus" id="desc">使用::::分割可分批发送消息</div>

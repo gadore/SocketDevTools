@@ -2,6 +2,8 @@ const net = require('net')
 const WebSocket = require('ws')
 // 引用Server类:
 const WebSocketServer = WebSocket.Server
+const fs = require('fs')
+const { dialog } = require('electron').remote
 
 //  state.websock.readyState =>
 //  ###########################
@@ -19,6 +21,7 @@ let autoSend = false
 let hexType = false
 let headerSize = 0
 let clientBank = new Array()
+let logItemSize = 200
 
 function startWebsocketServer(e) {
     if (e.type === 'click' || (e.type === 'keyup' && e.keyCode === 13)) {
@@ -116,7 +119,7 @@ function createWebSocketServer(port) {
             client.on('message', function (message) {
                 div.appendChild(contentCreater('[Server receive]:' + `${client._socket.remoteAddress.split(':')[3]}:${client._socket.remotePort}:${message}`, 'blue'))
                 scrollToEnd(div)
-                if(div.children.length>100){
+                if(div.children.length>logItemSize){
                     div.innerHTML = ''
                 }
             })
@@ -176,7 +179,7 @@ function createWebSocketClient(hostname, port, id) {
         }
         div.appendChild(contentCreater('message receive:' + msg.data, 'blue'))
         scrollToEnd(div)
-        if(div.children.length>100){
+        if(div.children.length>logItemSize){
             div.innerHTML = ''
         }
     }
@@ -282,7 +285,7 @@ function createSocketClient(hostname, port, id) {
         }
         div.appendChild(contentCreater('message receive:' + msg, 'blue'))
         scrollToEnd(div)
-        if(div.children.length>100){
+        if(div.children.length>logItemSize){
             div.innerHTML = ''
         }
     })
@@ -346,7 +349,7 @@ function createSocketServer(Port) {
                 }
                 div.appendChild(contentCreater('[Server receive]:' + `${client.remoteAddress}:${client.remotePort}:${msg}`, 'blue'))
                 scrollToEnd(div)
-                if(div.children.length>100){
+                if(div.children.length>logItemSize){
                     div.innerHTML = ''
                 }
             })
@@ -484,6 +487,23 @@ function sendMessage() {
 }
 
 $id('sendButton').onclick = sendMessage
+
+$id('exportButton').onclick = () => {
+    const activeWindow = $class('contentBoxActive')[0]
+    if (!$isNull(activeWindow)) {
+        dialog.showSaveDialog({
+            title:'Save current log file',
+            nameFieldLabel: 'log.txt'
+        }).then(result=>{
+            showNotify('File saved !')
+            fs.writeFileSync(result.filePath, activeWindow.innerText)
+        }).catch(err=>{
+            showNotify('Save failed [ ' + err.code + ' ]')
+        })
+    } else {
+        showNotify('No window is actived')
+    }
+}
 
 function contentCreater(content, color) {
     var time = new Date()

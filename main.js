@@ -30,16 +30,12 @@ function createWindow() {
   // 加载index.html文件
   win.loadFile('index.html')
 
-  win.once('ready-to-show', () => {
-    win.show()
-  })
+  win.once('ready-to-show', () => { win.show() })
 
   var status = false
 
   //窗口最小化
-  ipcMain.on('window-hide', function () {
-    win.minimize();
-  })
+  ipcMain.on('window-hide', function () { win.minimize() })
 
   //窗口最大化
   ipcMain.on('window-max', function () {
@@ -51,9 +47,7 @@ function createWindow() {
     
   })
 
-  ipcMain.on('window-close', function () {
-    win.close();
-  })
+  ipcMain.on('window-close', function () { win.close() })
 
   // 打开开发者工具
   // win.webContents.openDevTools()
@@ -76,17 +70,13 @@ app.on('ready', createWindow)
 app.on('window-all-closed', () => {
   // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
   // 否则绝大部分应用及其菜单栏会保持激活。
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  if (process.platform !== 'darwin') { app.quit() }
 })
 
 app.on('activate', () => {
   // 在macOS上，当单击dock图标并且没有其他窗口打开时，
   // 通常在应用程序中重新创建一个窗口。
-  if (win === null) {
-    createWindow()
-  }
+  if (win === null) { createWindow() }
 })
 
 // 在这个文件中，你可以续写应用剩下主进程代码。

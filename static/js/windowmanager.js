@@ -132,6 +132,10 @@ function headerSizeChange(){
   headerSize = parseInt($id('headerSize').options[$id('headerSize').selectedIndex].value)
 }
 
+function logItemSizeChange(){
+  logItemSize = parseInt($id('logItemSize').options[$id('logItemSize').selectedIndex].value)
+}
+
 function encodingChange(){
   hexType = $id('encoding').options[$id('encoding').selectedIndex].value == 'true' ? true : false
 }
